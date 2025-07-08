@@ -15,10 +15,12 @@ app.use(
 const productRoutes = require("./routes/products");
 const articleRoutes = require("./routes/articles");
 const commentRoutes = require("./routes/comment");
+const userRouters = require("./routes/user.js");
 
 app.use("/api/products", productRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/comment", commentRoutes);
+app.use("/api/user", userRouters);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

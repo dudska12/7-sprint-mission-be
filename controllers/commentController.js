@@ -15,7 +15,7 @@ exports.createComment = async (req, res) => {
         data: {
           content,
           articleId,
-          userId,
+          userId: String(userId),
         },
       });
     } else if (productId) {
@@ -23,12 +23,13 @@ exports.createComment = async (req, res) => {
         data: {
           content,
           productId,
-          userId,
+          userId: String(userId),
         },
       });
     }
     return res.status(201).json(comment);
   } catch (error) {
+    console.error("댓글 생성 중 에러:", error);
     return res.status(500).json({ error: "서버오류발생" });
   }
 };
@@ -63,7 +64,7 @@ exports.deleteComment = async (req, res) => {
 };
 
 exports.getArticleComments = async (req, res) => {
-  const { articleId, cursor, limit = 10 } = req.query;
+  const { articleId, cursor, limit = 10 } = req.params;
 
   if (!articleId) {
     return res.status(400).json({ error: "articleId가 필요합니다." });
@@ -93,7 +94,7 @@ exports.getArticleComments = async (req, res) => {
 };
 
 exports.getProductComments = async (req, res) => {
-  const { productId, cursor, limit = 10 } = req.query;
+  const { productId, cursor, limit = 10 } = req.params;
 
   if (!productId) {
     return res.status(400).json({ error: "productId가 필요합니다." });
@@ -115,6 +116,25 @@ exports.getProductComments = async (req, res) => {
       },
     });
 
+    return res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "서버 오류 발생" });
+  }
+};
+
+exports.getAllProductComments = async (req, res) => {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { productId: { not: null } }, // productId가 존재하는 댓글만
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        productId: true,
+      },
+    });
     return res.status(200).json(comments);
   } catch (error) {
     console.error(error);

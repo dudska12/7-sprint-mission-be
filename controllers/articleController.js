@@ -26,10 +26,10 @@ exports.getArticle = async (req, res) => {
     const article = await prisma.article.findUnique({
       where: { id },
       select: {
-        id,
-        title,
-        content,
-        createdAt,
+        id: true,
+        title: true,
+        content: true,
+        createdAt: true,
       },
     });
     if (!article) {
