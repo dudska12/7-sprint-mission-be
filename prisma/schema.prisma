@@ -18,6 +18,7 @@ model User {
   name    String
   email   String    @unique
   Comment Comment[]
+  Article Article[]
 }
 
 model Product {
@@ -38,6 +39,9 @@ model Article {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Comment   Comment[]
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  like      Int       @default(0)
 }
 
 model Comment {

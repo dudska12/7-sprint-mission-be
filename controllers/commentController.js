@@ -59,7 +59,7 @@ exports.deleteComment = async (req, res) => {
     });
     return res.status(200).json({ message: "상품이 삭제되었습니다. " });
   } catch (error) {
-    return res.status(500).json({ error: "서버 오류 발생" });
+    return res.status(500).json({ error: "서버 딜리트터지는거 오류 발생" });
   }
 };
 

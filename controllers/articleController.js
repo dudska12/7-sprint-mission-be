@@ -44,7 +44,7 @@ exports.getArticle = async (req, res) => {
 exports.patchArticle = async (req, res) => {
   try {
     const { id } = req.params;
-    const fields = ["title", "description", "img"];
+    const fields = ["title", "content", "like"];
     const fieldsData = {};
 
     for (const otherField of fields) {
@@ -97,6 +97,12 @@ exports.getArticleList = async (req, res) => {
         title: true,
         content: true,
         createdAt: true,
+        like: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     return res.status(200).json(article);

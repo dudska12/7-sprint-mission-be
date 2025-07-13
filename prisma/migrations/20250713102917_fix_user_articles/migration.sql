@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Article" ADD COLUMN     "like" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "userId" TEXT;
+
+-- AddForeignKey
+ALTER TABLE "Article" ADD CONSTRAINT "Article_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
