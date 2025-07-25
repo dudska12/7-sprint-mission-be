@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -21,8 +21,8 @@ generator erd {
 
 model User {
   id        String     @id @default(uuid())
-  image     String
-  name      String
+  image     String?
+  nickname  String     @default("default_nickname")
   email     String     @unique
   password  String
   comment   Comments[]

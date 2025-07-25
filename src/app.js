@@ -1,5 +1,9 @@
 import express from "express";
 import { PrismaClient } from "../generated/prisma/index.js";
+import userRouter from "../src/routers/userRouter.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+import authRouter from "../src/routers/authRouter.js";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -7,14 +11,9 @@ const PORT = 5000;
 
 app.use(express.json());
 
-app.get("/users", async (req, res) => {
-  try {
-    const users = await prisma.user.findMany();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: "서버 오류" });
-  }
-});
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
